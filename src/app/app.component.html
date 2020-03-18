@@ -1,0 +1,519 @@
+
+<style>
+  :host {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 14px;
+    color: #333;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: gray;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 8px 0;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .spacer {
+    flex: 1;
+  }
+
+  .toolbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    background-color: white;
+    color: black;
+    font-weight: 600;
+    justify-content: center;
+  }
+
+  .toolbar img {
+    padding-left: 250px;
+  }
+
+  .sidebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 48em;
+    width: 20em;
+    display: flex;
+    align-items: center;
+    background-color: #f8f8f8;
+    color: black;
+    justify-content: center;
+    z-index: 1;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.12);
+  }
+
+  .sidebar img {
+    margin: 0 0px;
+  }
+
+  .content {
+    display: flex;
+    margin: 90px auto 32px 235px;
+    padding: 0 16px;
+    max-width: 960px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  svg.material-icons {
+    height: 24px;
+    width: auto;
+  }
+
+  svg.material-icons:not(:last-child) {
+    margin-right: 8px;
+  }
+
+  .sidenav-container {
+   height: 100%;
+  }
+  .sidenav {
+    width: 240px;
+    box-shadow: 1px 0 1px rgba(0, 0, 0, .24);
+    background: #fff;
+  }
+
+  .card svg.material-icons path {
+    fill: #888;
+  }
+
+  .card-container {
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 16px;
+
+  }
+
+  .available{
+    display: inherit;
+    flex-direction: row;  
+    align-items: center;
+    line-height: 24px;
+  }
+
+  .card {
+    border-radius: 4px;
+    border: 1px solid #eee;
+    background-color: #fff;
+    height: 40px;
+    width: 150px;
+    margin: 0 8px 16px;
+    padding: 16px;
+    display: block;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s ease-in-out;
+    line-height: 24px;
+  }
+
+  .card-container .card:not(:last-child) {
+    margin-right: 0;
+  }
+
+  .card.card-small {
+    height: 16px;
+    width: 168px;
+  }
+
+  .card.card-big {
+    height: 150px;
+    width: 570px;
+    display: inherit;
+  }
+
+  .card-container .card:not(.highlight-card) {
+    cursor: pointer;
+  }
+
+  .card-container .card:not(.highlight-card):hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 17px rgba(black, 0.35);
+  }
+
+  .card-container .card:not(.highlight-card):hover .material-icons path {
+    fill: rgb(105, 103, 103);
+  }
+
+  .card.highlight-card {
+    background-color: #1976d2;
+    color: white;
+    font-weight: 600;
+    border: none;
+    width: auto;
+    min-width: 30%;
+    position: relative;
+  }
+
+  .card.card.highlight-card span {
+    margin-left: 60px;
+  }
+
+  svg#rocket {
+    width: 80px;
+    position: absolute;
+    left: -10px;
+    top: -24px;
+  }
+
+  a,
+  a:visited,
+  a:hover {
+    color: black;
+    text-decoration: none;
+    text-align: center;
+  }
+
+  a:hover {
+    color: #125699;
+  }
+
+  .terminal {
+    position: relative;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 6px;
+    padding-top: 45px;
+    margin-top: 8px;
+    overflow: hidden;
+    background-color: rgb(15, 15, 16);
+  }
+
+  .terminal::before {
+    content: "\2022 \2022 \2022";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 4px;
+    background: rgb(58, 58, 58);
+    color: #c2c3c4;
+    width: 100%;
+    font-size: 2rem;
+    line-height: 0;
+    padding: 14px 0;
+    text-indent: 4px;
+  }
+
+  .terminal pre {
+    font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+    color: white;
+    padding: 0 1rem 1rem;
+    margin: 0;
+  }
+
+  .circle-link {
+    height: 40px;
+    width: 40px;
+    border-radius: 40px;
+    margin: 8px;
+    background-color: white;
+    border: 1px solid #eeeeee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    transition: 1s ease-out;
+  }
+
+  .circle-link:hover {
+    transform: translateY(-0.25rem);
+    box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  footer {
+    margin-top: 7em;
+    margin-left: 60em;
+    display: flex;
+    align-items: center;
+    line-height: 20px;
+  }
+
+  .nav{
+    align-items: center;
+    align-content: center;
+    place-self: center;
+  }
+
+  footer a {
+    display: flex;
+    align-items: center;
+  }
+
+  .github-star-badge {
+    color: #24292e;
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    padding: 3px 10px;
+    border: 1px solid rgba(27,31,35,.2);
+    border-radius: 3px;
+    background-image: linear-gradient(-180deg,#fafbfc,#eff3f6 90%);
+    margin-left: 4px;
+    font-weight: 600;
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
+  }
+
+  .github-star-badge:hover {
+    background-image: linear-gradient(-180deg,#f0f3f6,#e6ebf1 90%);
+    border-color: rgba(27,31,35,.35);
+    background-position: -.5em;
+  }
+
+  .github-star-badge .material-icons {
+    height: 16px;
+    width: 16px;
+    margin-right: 4px;
+  }
+
+  svg#clouds {
+    position: fixed;
+    bottom: -160px;
+    left: -230px;
+    z-index: -10;
+    width: 1920px;
+  }
+
+  .dataF{
+    float: left;
+    display: flex;
+    padding-right: 4em;
+  }
+
+  .price{
+    padding-right: 2em;
+  }
+
+  .button{
+    float: right;
+    line-height: 4;
+  }
+
+  .img{
+    padding-right: 4em;
+  }
+
+  .cont{
+    margin-left: -2em;
+  }
+
+  .userP{
+    padding-bottom: 3em;
+  }
+
+  .itemenu{
+    line-height: 3;
+  }
+
+  .avatar{
+    padding-bottom: 2em;
+  }
+
+
+  .menub{
+     background:  transparent;
+     height:  38px;
+     line-height:  40px;
+     border:  2px solid red;
+     display:  inline-block;
+     float:  none;
+     text-align:  center;
+     width:  120px;
+     padding:  0px!important;
+     font-size:  14px;
+     color:  red;
+  }
+
+  .left-card{
+    padding-left: 16em;
+  }
+
+  /* Responsive Styles */
+  @media screen and (max-width: 768px) {
+
+    .content{
+      display: flex;
+      margin: 90px auto 32px;
+      padding: 0 16px;
+      max-width: 960px;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .card-container > *:not(.circle-link) ,
+    .terminal {
+      width: 100%;
+    }
+
+    .card:not(.highlight-card) {
+      height: 40px;
+      margin: 40px 0;
+    }
+
+    .card.highlight-card span {
+      margin-left: 72px;
+    }
+
+    svg#rocket-smoke {
+      right: 120px;
+      transform: rotate(-5deg);
+    }
+
+    .sidebar{
+      display: none;
+    }
+
+    .toolbar img {
+    padding-left: 0px;
+  }
+
+  }
+
+  @media screen and (max-width: 575px) {
+    .available{
+      display: contents;
+    }
+    .left-card{
+    padding-left: 0em;
+  }
+
+  .card-big {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 56px;
+}
+
+
+  }
+</style>
+
+<!--navBar-->
+
+<div class="sidebar">
+  <div class="nav">
+    <div class="userP"> 
+      <img class="avatar" width="80" src="../assets/avatar.png">
+      <p> <strong> Hola Daniel  </strong></p>
+      <span>Tu plan <a style="text-decoration: none; color: red;"> Corporativo </a> </span>
+    </div>
+    <div class="itemenu">
+      <p> 
+        <svg style="margin-right: 1em;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        <span> Inicio</span>
+      </p>
+      <p>
+        <svg style="margin-right: 1em;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 18 18"><path d="M9 1C4.58 1 1 4.58 1 9s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm0 2.75c1.24 0 2.25 1.01 2.25 2.25S10.24 8.25 9 8.25 6.75 7.24 6.75 6 7.76 3.75 9 3.75zM9 14.5c-1.86 0-3.49-.92-4.49-2.33C4.62 10.72 7.53 10 9 10c1.47 0 4.38.72 4.49 2.17-1 1.41-2.63 2.33-4.49 2.33z"/></svg>
+        <span> Mi cuenta </span>
+      </p>
+      <p>
+        <svg style="margin-right: 1em;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z"/></svg>
+        <span> Historial de pedidos </span>
+      </p>
+      <p style="line-height: 1;">
+        <svg style="margin-right: 1em;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+        <span> Ayuda</span>
+      </p>
+      
+    </div>
+  </div>
+
+</div>
+
+<!-- Toolbar -->
+<div class="toolbar" role="banner">
+    
+    <img width="60" src="../assets/logo.png">
+</div>
+
+<div class="content" role="main">
+
+  <!-- Resources -->
+<div class="available">
+  <div class="textA">
+    <p>Chefs disponibles en</p>
+    <p>  <u> <strong> Yara </strong> </u> </p>
+  </div>
+
+  <div class="card-container left-card">
+    <a class="card" target="_blank" rel="noopener">
+      <span>Créditos disponibles</span>
+      <p><strong>1</strong></p>
+   </a>
+
+  </div>
+</div>
+
+
+  <!-- Next Steps -->
+
+  <input type="hidden" #selection>
+
+  <div class="card-container">
+
+    <div class="card card-big" tabindex="0">
+      <div class="img">
+        <img width="150" src="../assets/ img.jpg">
+      </div>
+      <div class="cont">
+        <p><strong>Sabroso &nbsp;</strong>
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+        </p>
+        <span>Comida típica variada</span>
+        <br>
+        <br>
+        <br> 
+        <div class="cardata">
+          <div class="dataF">
+            <div class="price">
+              <p style="color: lightgrey;">PRECIO</p>
+              <span>$4.00</span>
+            </div>
+            
+            <div class="till">
+              <p style="color: lightgrey;">ORDENAR HASTA</p>
+              <span>10:00 AM</span>
+            </div>
+          </div>
+          <div class="button">
+            <div class="menub">
+              Ver menu
+            </div>
+          </div>
+        </div>
+      
+      </div>
+
+    </div>
+    
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <img width="200" src="../assets/footer.png">
+  </footer>
+
+
+</div>
+
+<router-outlet></router-outlet>
